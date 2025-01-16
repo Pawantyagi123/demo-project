@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useTheme } from '@/context/ThemeContext';
+import React, { useState } from 'react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -20,151 +21,129 @@ import {
   Copy 
 } from 'lucide-react';
 
-const APIDashboard = () => {
-  // Initialize all state variables
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [apiConfig, setApiConfig] = useState({
-    name: '',
-    url: '',
-    method: 'GET'
-  });
-  const [parameters, setParameters] = useState([{ key: '', value: '' }]);
-  const [activeTab, setActiveTab] = useState('configure');
-  const [selectedLanguage, setSelectedLanguage] = useState('python');
-  const [bodyType, setBodyType] = useState('json');
-  const [requestHistory, setRequestHistory] = useState([]);
-  const [generatedCode, setGeneratedCode] = useState('');
-  const [apiType, setApiType] = useState('rest');
-  const [schemaDefinition, setSchemaDefinition] = useState('');
-  const [authentication, setAuthentication] = useState({
-    type: 'none',
-    apiKey: '',
-    bearerToken: '',
-    username: '',
-    password: ''
-  });
-  const [headers, setHeaders] = useState([{ key: '', value: '' }]);
-  const [wsEvents, setWsEvents] = useState([{ name: '', data: '' }]);
-  const [soapAction, setSoapAction] = useState('');
-  const [soapVersion, setSoapVersion] = useState('1.1');
-
-  const supportedLanguages = {
-    python: 'Python',
-    javascript: 'JavaScript',
-    java: 'Java',
-    php: 'PHP',
-    csharp: 'C#',
-    ruby: 'Ruby',
-    go: 'Go',
-    rust: 'Rust'
-  };
-
-  const apiTypes = {
-    rest: 'REST API',
-    graphql: 'GraphQL API',
-    websocket: 'WebSocket',
-    soap: 'SOAP API'
-  };
-
-  const authTypes = {
-    none: 'No Auth',
-    apiKey: 'API Key',
-    bearer: 'Bearer Token',
-    basic: 'Basic Auth',
-    oauth2: 'OAuth 2.0'
-  };
-
-  const bodyTypes = {
-    json: 'JSON',
-    raw: 'Raw',
-    formData: 'Form Data',
-    xWwwFormUrlencoded: 'x-www-form-urlencoded'
-  };
-
-  const generateCode = (language, config) => {
-    const codeSnippets = {
-      python: `import requests
-
-url = "${config.url}"
-payload = {
-${parameters.map(p => `    "${p.key}": "${p.value}"`).join(',\n')}
-}
-headers = {
-    "Content-Type": "application/json"
-}
-
-response = requests.${config.method.toLowerCase()}(url, json=payload, headers=headers)
-print(response.json())`,
-      javascript: `fetch("${config.url}", {
-  method: "${config.method}",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-${parameters.map(p => `    ${p.key}: "${p.value}"`).join(',\n')}
-  })
-})
-.then(response => response.json())
-.then(data => console.log(data));`
-    };
-
-    return codeSnippets[language] || '// Code generation not implemented for this language yet';
-  };
-
-  const LoginForm = () => (
-    <Card className="w-full max-w-md mx-auto mt-8">
-      <CardHeader>
-        <CardTitle>Login to API Dashboard</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <Input type="email" placeholder="Email" className="w-full" />
-          <Input type="password" placeholder="Password" className="w-full" />
-          <div className="flex items-center justify-between">
-            <label className="flex items-center space-x-2">
-              <input type="checkbox" className="rounded" />
-              <span>Remember me</span>
-            </label>
-            <Button variant="link">Forgot Password?</Button>
-          </div>
-          <Button className="w-full  bg-blue-600 text-white text-lg" onClick={() => setIsLoggedIn(true)}>
-            Login
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  );
-
-  const Dashboard = () => (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-4">
+function Dashboard() {
+      const { theme } = useTheme();
+    const [apiConfig, setApiConfig] = useState({
+        name: '',
+        url: '',
+        method: 'GET'
+      });
+      const [parameters, setParameters] = useState([{ key: '', value: '' }]);
+      const [activeTab, setActiveTab] = useState('configure');
+      const [selectedLanguage, setSelectedLanguage] = useState('python');
+      const [bodyType, setBodyType] = useState('json');
+      const [requestHistory, setRequestHistory] = useState([]);
+      const [generatedCode, setGeneratedCode] = useState('');
+      const [apiType, setApiType] = useState('rest');
+      const [schemaDefinition, setSchemaDefinition] = useState('');
+      const [authentication, setAuthentication] = useState({
+        type: 'none',
+        apiKey: '',
+        bearerToken: '',
+        username: '',
+        password: ''
+      });
+      const [headers, setHeaders] = useState([{ key: '', value: '' }]);
+      const [wsEvents, setWsEvents] = useState([{ name: '', data: '' }]);
+      const [soapAction, setSoapAction] = useState('');
+      const [soapVersion, setSoapVersion] = useState('1.1');
+    
+    
+    
+      const supportedLanguages = {
+        python: 'Python',
+        javascript: 'JavaScript',
+        java: 'Java',
+        php: 'PHP',
+        csharp: 'C#',
+        ruby: 'Ruby',
+        go: 'Go',
+        rust: 'Rust'
+      };
+    
+      const apiTypes = {
+        rest: 'REST API',
+        graphql: 'GraphQL API',
+        websocket: 'WebSocket',
+        soap: 'SOAP API'
+      };
+    
+      const authTypes = {
+        none: 'No Auth',
+        apiKey: 'API Key',
+        bearer: 'Bearer Token',
+        basic: 'Basic Auth',
+        oauth2: 'OAuth 2.0'
+      };
+    
+      const bodyTypes = {
+        json: 'JSON',
+        raw: 'Raw',
+        formData: 'Form Data',
+        xWwwFormUrlencoded: 'x-www-form-urlencoded'
+      };
+    
+      const generateCode = (language, config) => {
+        const codeSnippets = {
+          python: `import requests
+    
+    url = "${config.url}"
+    payload = {
+    ${parameters.map(p => `    "${p.key}": "${p.value}"`).join(',\n')}
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    
+    response = requests.${config.method.toLowerCase()}(url, json=payload, headers=headers)
+    print(response.json())`,
+          javascript: `fetch("${config.url}", {
+      method: "${config.method}",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+    ${parameters.map(p => `    ${p.key}: "${p.value}"`).join(',\n')}
+      })
+    })
+    .then(response => response.json())
+    .then(data => console.log(data));`
+        };
+    
+        return codeSnippets[language] || '// Code generation not implemented for this language yet';
+      };
+  return (
+    <>
+    <div className={`container p-4 mx-auto ${theme === "light" ? "bg-gray-800 text-white" : " bg-white text-black"}`}>
+      <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">API Code Generator</h1>
         <div className="flex gap-2">
           <Button variant="outline">
-            <Upload className="h-4 w-4 mr-2" /> Import
+            <Upload className="w-4 h-4 mr-2" /> Import
           </Button>
-          <Button variant="ghost" onClick={() => setIsLoggedIn(false)}>
-            <LogOut className="h-4 w-4 mr-2" /> Logout
+          <Button variant="outline" onClick={() => setIsLoggedIn(false)}>
+            <LogOut className="w-4 h-4 mr-2" /> Logout
           </Button>
         </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="mb-4">
-          <TabsTrigger value="configure">Configure</TabsTrigger>
-          <TabsTrigger value="test">Generated Code</TabsTrigger>
-          <TabsTrigger value="history">History</TabsTrigger>
+        <TabsList className="flex gap-2 mb-4">
+          <TabsTrigger value="configure" className={`${theme === "light" ? "bg-white text-black" : "bg-gray-500 text-white"}`}>Configure</TabsTrigger>
+          <TabsTrigger value="test" className={`${theme === "light" ? "bg-white text-black" : "bg-gray-500 text-white"}`}>Generated Code</TabsTrigger>
+          <TabsTrigger value="history" className={`${theme === "light" ? "bg-white text-black" : "bg-gray-500 text-white"}`}>History</TabsTrigger>
         </TabsList>
 
         <TabsContent value="configure">
-          <Card>
+          <Card className="w-100">
             <CardHeader>
               <CardTitle>API Configuration</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
+              <div className='flex flex-wrap gap-4'>
                 <div>
-                  <label className="block text-sm font-medium mb-1">API Type</label>
+                  <label className="block mb-1 text-sm font-medium">API Type</label>
                   <Select value={apiType} onValueChange={setApiType}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select API type" />
@@ -178,7 +157,7 @@ ${parameters.map(p => `    ${p.key}: "${p.value}"`).join(',\n')}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Authentication</label>
+                  <label className="block mb-1 text-sm font-medium">Authentication</label>
                   <Select value={authentication.type} onValueChange={(value) => 
                     setAuthentication({ ...authentication, type: value })}>
                     <SelectTrigger>
@@ -191,10 +170,23 @@ ${parameters.map(p => `    ${p.key}: "${p.value}"`).join(',\n')}
                     </SelectContent>
                   </Select>
                 </div>
-
+                <div>
+                  <label className="block mb-1 text-sm font-medium">Body Type</label>
+                  <Select value={bodyType} onValueChange={setBodyType}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Body type" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-200">
+                      {Object.entries(bodyTypes).map(([key, value]) => (
+                        <SelectItem key={key} value={key}>{value}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                </div>
                 {apiType === 'graphql' && (
                   <div>
-                    <label className="block text-sm font-medium mb-1">GraphQL Schema</label>
+                    <label className="block mb-1 text-sm font-medium">GraphQL Schema</label>
                     <Textarea
                       placeholder="type Query { ... }"
                       value={schemaDefinition}
@@ -205,7 +197,7 @@ ${parameters.map(p => `    ${p.key}: "${p.value}"`).join(',\n')}
                 )}
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Headers</label>
+                  <label className="block mb-1 text-sm font-medium">Headers</label>
                   {headers.map((header, index) => (
                     <div key={index} className="flex gap-2 mb-2">
                       <Input
@@ -234,7 +226,7 @@ ${parameters.map(p => `    ${p.key}: "${p.value}"`).join(',\n')}
                           setHeaders(newHeaders);
                         }}
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
                   ))}
@@ -243,7 +235,7 @@ ${parameters.map(p => `    ${p.key}: "${p.value}"`).join(',\n')}
                     size="sm"
                     onClick={() => setHeaders([...headers, { key: '', value: '' }])}
                   >
-                    <Plus className="h-4 w-4 mr-2" /> Add Header
+                    <Plus className="w-4 h-4 mr-2" /> Add Header
                   </Button>
                 </div>
 
@@ -272,7 +264,7 @@ ${parameters.map(p => `    ${p.key}: "${p.value}"`).join(',\n')}
                       ...requestHistory
                     ]);
                   }}>
-                    <Code className="h-4 w-4 mr-2" /> Generate Code
+                    <Code className="w-4 h-4 mr-2" /> Generate Code
                   </Button>
                 </div>
               </div>
@@ -281,12 +273,12 @@ ${parameters.map(p => `    ${p.key}: "${p.value}"`).join(',\n')}
         </TabsContent>
 
         <TabsContent value="test">
-          <Card>
+          <Card className="flex flex-col items-center justify-center text-center">
             <CardHeader>
               <CardTitle>Generated Code</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="bg-muted p-4 rounded-lg">
+              <div className="p-4 rounded-lg bg-muted">
                 <pre className="text-sm whitespace-pre-wrap">{generatedCode}</pre>
               </div>
             </CardContent>
@@ -326,9 +318,8 @@ ${parameters.map(p => `    ${p.key}: "${p.value}"`).join(',\n')}
         </TabsContent>
       </Tabs>
     </div>
-  );
+    </>
+  )
+}
 
-  return isLoggedIn ? <Dashboard /> : <LoginForm />;
-};
-
-export default APIDashboard;
+export default Dashboard

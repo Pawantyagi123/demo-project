@@ -7,7 +7,7 @@ const APIDashboard = () => {
   // Initialize all state variables
   const [isLoggedIn, setIsLoggedIn] = useState(false);
    const { theme } = useTheme();
-  return( isLoggedIn ? <Dashboard /> : <Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>)
+  return( isLoggedIn ? <Dashboard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/> : <Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>)
 };
 
 export default APIDashboard;

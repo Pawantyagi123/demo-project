@@ -21,7 +21,7 @@ import {
   Copy 
 } from 'lucide-react';
 
-function Dashboard() {
+function Dashboard({setIsLoggedIn}) {
       const { theme } = useTheme();
     const [apiConfig, setApiConfig] = useState({
         name: '',
@@ -114,7 +114,7 @@ function Dashboard() {
       };
   return (
     <>
-    <div className={`container p-4 mx-auto ${theme === "light" ? "bg-gray-800 text-white" : " bg-white text-black"}`}>
+    <div className={`container rounded-md p-4 mx-auto ${theme === "light" ? "bg-white text-black border-2 shadow-md" : " bg-gray-700 text-white"}`}>
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">API Code Generator</h1>
         <div className="flex gap-2">
@@ -135,7 +135,7 @@ function Dashboard() {
         </TabsList>
 
         <TabsContent value="configure">
-          <Card className="w-100">
+          <Card className="w-auto">
             <CardHeader>
               <CardTitle>API Configuration</CardTitle>
             </CardHeader>

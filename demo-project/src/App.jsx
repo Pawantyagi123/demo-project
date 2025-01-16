@@ -7,7 +7,7 @@ function App() {
 const {theme} = useTheme()
 
   return (
-    <div className={`${theme === "light" ? "bg-white" : "bg-gray-700"} w-100 h-100 p-4`}>
+    <div className={`${theme === "light" ? "bg-white" : "bg-gray-900"} w-100 h-[100vh] p-4`}>
     <Header/>
    <APIDashboard/>
     </div>
